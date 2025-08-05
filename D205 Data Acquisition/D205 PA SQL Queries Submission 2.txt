@@ -1,0 +1,59 @@
+-- Create services table
+
+CREATE TABLE public.services
+(	
+	customer_id text NOT NULL,
+	InternetService text NOT NULL,
+	Phone text NOT NULL,
+	Multiple text NOT NULL,
+	OnlineSecurity text NOT NULL,
+	OnlineBackup text NOT NULL,
+	DeviceProtection text NOT NULL,
+	TechSupport text NOT NULL,
+PRIMARY KEY (customer_id),
+CONSTRAINT customer_id_fkey FOREIGN KEY (customer_id)
+	REFERENCES public.customer (customer_id) MATCH SIMPLE
+	ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+	NOT VALID
+);
+
+-- Alter table ownership
+
+ALTER TABLE public.services
+	OWNER to postgres;
+
+
+--Copying data/importing data from services.csv file into the newly created services table
+
+COPY Services
+FROM 'C:\LabFiles\Services.csv'
+WITH 
+		(FORMAT CSV,
+				HEADER,
+				DELIMITER ',');
+				
+
+
+-- Check for successful importation of Services.csv into Services table
+
+SELECT *
+FROM services;
+
+
+---Research question and associated SQL query
+
+
+--How many male customers in each state are without internet subscriptions?
+
+SELECT l.state,
+		COUNT (c.customer_id) AS males_without_internet_service
+FROM customer c
+INNER JOIN services s
+ON c.customer_id = s.customer_id
+INNER JOIN location l
+ON c.location_id = l.location_id
+WHERE gender = 'Male' AND internetservice = 'None'
+GROUP BY l.state 
+ORDER BY l.state, males_without_internet_service DESC;
+
