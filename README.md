@@ -1,1 +1,1 @@
-This repository contains all of my projects completed during my time in the Masters of Science in Data Analytics program at Western Governors University.
+This portfolio is a representation and demonstration towards prospective employers, highlighting projects that I have completed during my time in the Master of Science in Data Analytics program at Western Governors University.
